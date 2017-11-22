@@ -15,10 +15,4 @@ python-dateutil==2.3
 # Time plugin
 semantic==1.0.3
 
-# wxbot
-PyQRCode==1.2.1
-pydub==0.18.0
-pypng==0.0.18
-
-
 

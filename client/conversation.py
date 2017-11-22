@@ -14,7 +14,6 @@ class Conversation(object):
         self.profile = profile
         self.brain = Brain(mic, profile)
         self.notifier = Notifier(profile, self.brain)
-        self.wxbot = None
 
     def is_proper_time(self):
         """
@@ -80,6 +79,6 @@ class Conversation(object):
             self._logger.debug("Stopped to listen actively with threshold: %r",
                                threshold)
             if input:
-                self.brain.query(input, self.wxbot)
+                self.brain.query(input)
             else:
                 self.mic.say("什么?")

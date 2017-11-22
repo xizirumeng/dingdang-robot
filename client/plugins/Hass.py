@@ -10,7 +10,7 @@ WORDS = ["JIATINGZHUSHOU", "ZHUSHOU"]
 SLUG = "homeassistant"
 
 
-def handle(text, mic, profile, wxbot=None):
+def handle(text, mic, profile):
     mic.say(u"开始家庭助手控制")
     mic.say(u'请在滴一声后说明内容')
     input = mic.activeListen(MUSIC=True)

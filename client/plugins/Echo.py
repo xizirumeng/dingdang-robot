@@ -5,7 +5,7 @@ SLUG = "echo"
 PRIORITY = 0
 
 
-def handle(text, mic, profile, wxbot=None):
+def handle(text, mic, profile):
     """
         Reports the current time based on the user's timezone.
 
@@ -14,7 +14,6 @@ def handle(text, mic, profile, wxbot=None):
         mic -- used to interact with the user (for both input and output)
         profile -- contains information related to the user (e.g., phone
                    number)
-        wxBot -- wechat robot
     """
     text = text.lower().replace('echo', '').replace(u'传话', '')
     mic.say(text)

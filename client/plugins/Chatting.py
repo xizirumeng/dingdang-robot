@@ -9,7 +9,7 @@ WORDS = ["XIANLIAO"]
 SLUG = "chatting"
 
 
-def handle(text, mic, profile, wxbot=None):
+def handle(text, mic, profile):
     """
     Responds to user-input, typically speech text
 
@@ -18,7 +18,6 @@ def handle(text, mic, profile, wxbot=None):
         mic -- used to interact with the user (for both input and output)
         profile -- contains information related to the user (e.g., phone
                    number)
-        wxbot -- wechat bot instance
     """
     if not any(word in text for word in [u"结束", u"停止", u"退出", u"不聊了"]):
         mic.say(u"进入闲聊模式，现在跟我说说话吧")

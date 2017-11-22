@@ -2,10 +2,9 @@
 # -*- coding: utf-8-*-
 from nose.tools import *
 from client import test_mic, diagnose, dingdangpath
-from client.plugins import Time, Echo, Email, SendQR
+from client.plugins import Time, Echo, Email
 
 DEFAULT_PROFILE = {
-    'prefers_email': False,
     'timezone': 'HKT',
     'wechat': False
 }
@@ -51,13 +50,5 @@ class TestPlugins():
         query = u"我有多少邮件"
         inputs = []
         self.runConversation(query, inputs, Gmail)
-
-    def testSendQR(self):
-        if 'wechat' not in self.profile or not self.profile['wechat']:
-            return
-        
-        query = u"发送微信二维码"
-        inputs = []
-        self.runConversation(query, inputs, SendQR)
 
         

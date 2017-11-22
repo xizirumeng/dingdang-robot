@@ -9,7 +9,7 @@ WORDS = [u"PAIZHAO", u"ZHAOPIAN"]
 SLUG = "camera"
 
 
-def handle(text, mic, profile, wxbot=None):
+def handle(text, mic, profile):
     """
         Reports the current time based on the user's timezone.
 
@@ -18,7 +18,6 @@ def handle(text, mic, profile, wxbot=None):
         mic -- used to interact with the user (for both input and output)
         profile -- contains information related to the user (e.g., phone
                    number)
-        wxbot -- wechat bot instance
     """
     sys.path.append(mic.dingdangpath.LIB_PATH)
     from app_utils import sendToUser
@@ -97,14 +96,9 @@ def handle(text, mic, profile, wxbot=None):
             mic.play(mic.dingdangpath.data('audio', 'camera.wav'))
         # send to user
         if send_to_user:
-            target = '邮箱'
-            if wxbot is not None and wxbot.my_account != {} and \
-               ('prefers_email' not in profile or
-               not profile['prefers_email']):
-                target = '微信'
             if sound:
-                mic.say(u'拍照成功！正在发送照片到您的%s' % target)
-            if sendToUser(profile, wxbot, u"这是刚刚为您拍摄的照片", "", [dest_file], []):
+                mic.say(u'拍照成功！正在发送照片到您的邮箱')
+            if sendToUser(profile, u"这是刚刚为您拍摄的照片", "", [dest_file], []):
                 if sound:
                     mic.say(u'发送成功')
             else:

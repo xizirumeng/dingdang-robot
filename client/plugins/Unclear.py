@@ -13,7 +13,7 @@ def need_robot(profile):
     return False
 
 
-def handle(text, mic, profile, wxbot=None):
+def handle(text, mic, profile):
     """
     Reports that the user has unclear or unusable input.
 
@@ -22,12 +22,11 @@ def handle(text, mic, profile, wxbot=None):
     mic -- used to interact with the user (for both input and output)
     profile -- contains information related to the user (e.g., phone
                number)
-    wxBot -- wechat robot
     """
     if need_robot(profile):
         slug = profile['robot']
         robot = get_robot_by_slug(slug)
-        robot.get_instance(mic, profile, wxbot).chat(text)
+        robot.get_instance(mic, profile).chat(text)
     else:
         messages = [u"抱歉，您能再说一遍吗？",
                     u"听不清楚呢，可以再为我说一次吗？",

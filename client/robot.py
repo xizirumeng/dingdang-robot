@@ -18,10 +18,9 @@ class AbstractRobot(object):
     __metaclass__ = ABCMeta
 
     @classmethod
-    def get_instance(cls, mic, profile, wxbot=None):
-        instance = cls(mic, profile, wxbot)
+    def get_instance(cls, mic, profile):
+        instance = cls(mic, profile)
         cls.mic = mic
-        cls.wxbot = wxbot
         return instance
 
     def __init__(self, **kwargs):
@@ -36,14 +35,13 @@ class TulingRobot(AbstractRobot):
 
     SLUG = "tuling"
 
-    def __init__(self, mic, profile, wxbot=None):
+    def __init__(self, mic, profile):
         """
         图灵机器人
         """
         super(self.__class__, self).__init__()
         self.mic = mic
         self.profile = profile
-        self.wxbot = wxbot
         self.tuling_key = self.get_key()
 
     def get_key(self):
@@ -87,11 +85,7 @@ class TulingRobot(AbstractRobot):
                self.profile['read_long_content'] is not None and \
                not self.profile['read_long_content']:
                 target = '邮件'
-                if self.wxbot is not None and self.wxbot.my_account != {} \
-                   and not self.profile['prefers_email']:
-                    target = '微信'
-                self.mic.say(u'一言难尽啊，我给您发%s吧' % target)
-                if sendToUser(self.profile, self.wxbot, u'回答%s' % msg, result):
+                if sendToUser(self.profile, u'回答%s' % msg, result):
                     self.mic.say(u'%s发送成功！' % target)
                 else:
                     self.mic.say(u'抱歉，%s发送失败了！' % target)
@@ -111,14 +105,13 @@ class Emotibot(AbstractRobot):
 
     SLUG = "emotibot"
 
-    def __init__(self, mic, profile, wxbot=None):
+    def __init__(self, mic, profile):
         """
         Emotibot机器人
         """
         super(self.__class__, self).__init__()
         self.mic = mic
         self.profile = profile
-        self.wxbot = wxbot
         (self.appid, self.location, self.more) = self.get_config()
 
     def get_config(self):
@@ -186,11 +179,8 @@ class Emotibot(AbstractRobot):
                self.profile['read_long_content'] is not None and \
                not self.profile['read_long_content']:
                 target = '邮件'
-                if self.wxbot is not None and self.wxbot.my_account != {} \
-                   and not self.profile['prefers_email']:
-                    target = '微信'
                 self.mic.say(u'一言难尽啊，我给您发%s吧' % target)
-                if sendToUser(self.profile, self.wxbot, u'回答%s' % msg, result):
+                if sendToUser(self.profile, u'回答%s' % msg, result):
                     self.mic.say(u'%s发送成功！' % target)
                 else:
                     self.mic.say(u'抱歉，%s发送失败了！' % target)

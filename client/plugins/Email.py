@@ -173,7 +173,7 @@ def fetchUnreadEmails(profile, since=None, markRead=False, limit=None):
     return msgs
 
 
-def handle(text, mic, profile, wxbot=None):
+def handle(text, mic, profile):
     """
         Responds to user-input, typically speech text, with a summary of
         the user's email inbox, reporting on the number of unread emails
@@ -184,7 +184,6 @@ def handle(text, mic, profile, wxbot=None):
         mic -- used to interact with the user (for both input and output)
         profile -- contains information related to the user (e.g., email
                    address)
-        wxBot -- wechat robot
     """
     msgs = fetchUnreadEmails(profile, limit=5)
 

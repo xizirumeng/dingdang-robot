@@ -6,7 +6,6 @@ from client import brain, test_mic
 
 
 DEFAULT_PROFILE = {
-    'prefers_email': False,
     'timezone': 'HKT'
 }
 
