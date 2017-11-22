@@ -5,8 +5,7 @@ from client import test_mic, diagnose, dingdangpath
 from client.plugins import Time, Echo, Email
 
 DEFAULT_PROFILE = {
-    'timezone': 'HKT',
-    'wechat': False
+    'timezone': 'HKT'
 }
 
 

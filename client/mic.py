@@ -11,8 +11,6 @@ import time
 import pyaudio
 import dingdangpath
 import mute_alsa
-from app_utils import wechatUser
-
 
 class Mic:
     speechRec = None

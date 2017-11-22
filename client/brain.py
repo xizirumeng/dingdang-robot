@@ -42,7 +42,6 @@ class Brain(object):
         logger.debug("Looking for plugins in: %s",
                      ', '.join(["'%s'" % location for location in locations]))
         plugins = []
-        # plugins that are not allow to be call via Wechat or Email
         for finder, name, ispkg in pkgutil.walk_packages(locations):
             try:
                 loader = finder.find_module(name)
@@ -83,7 +82,6 @@ class Brain(object):
 
         Arguments:
         text -- user input, typically speech, to be parsed by a plugin
-        send_wechat -- also send the respondsed result to wechat
         """
         for plugin in self.plugins:
             for text in texts:
