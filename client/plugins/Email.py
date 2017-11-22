@@ -136,10 +136,9 @@ def fetchUnreadEmails(profile, since=None, markRead=False, limit=None):
         A list of unread email objects.
     """
     logger = logging.getLogger(__name__)
-    conn = imaplib.IMAP4(profile[SLUG]['imap_server'],
+    conn = imaplib.IMAP4_SSL(profile[SLUG]['imap_server'],
                          profile[SLUG]['imap_port'])
     conn.debug = 0
-
     msgs = []
     try:
         conn.login(profile[SLUG]['address'], profile[SLUG]['password'])
@@ -163,9 +162,10 @@ def fetchUnreadEmails(profile, since=None, markRead=False, limit=None):
 
             if not since or getDate(msg) > since:
                 msgs.append(msg)
-
-            if isEchoEmail(msg, profile):
-                conn.store(num, '+FLAGS', '\Seen')
+            # 全部标记为已读
+            conn.store(num, '+FLAGS', '\Seen')
+            # if isEchoEmail(msg, profile):
+            #     conn.store(num, '+FLAGS', '\Seen')
 
     conn.close()
     conn.logout()
