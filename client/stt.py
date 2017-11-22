@@ -235,7 +235,7 @@ class BaiduSTT(AbstractSTTEngine):
         return config
 
     def get_token(self):
-        cache = open(dingdangpath.TEMP_PATH+'/baidutoken.ini' , 'r+')
+        cache = open(dingdangpath.TEMP_PATH+'/baidutoken.ini' , 'a+')
         try:
             pms = cache.readlines()
             if len(pms) > 0:
