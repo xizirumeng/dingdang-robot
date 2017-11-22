@@ -478,10 +478,10 @@ class BaiduTTS(AbstractMp3TTSEngine):
             if len(pms) > 0:
                 time = pms[0]
                 tk = pms[1]
-                # 计算token是否过期 86400
+                # 计算token是否过期 官方说明一个月，这里保守估计29天
                 time = parser.parse(time)
                 endtime = datetime.datetime.now()
-                if (endtime - time).seconds <= 86300:
+                if (endtime - time).days <= 29:
                     return tk
 
         finally:
