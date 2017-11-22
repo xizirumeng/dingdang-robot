@@ -33,7 +33,7 @@ if [ -f /root/asound.state ]; then
 fi
 
 #Launch Dingdang in tmux
-sudo tmux new-session -d -s $session_name $HOME/dingdang/dingdang.py
+sudo tmux new-session -d -s $session_name $HOME/software/dingdang/dingdang.py
 sleep 1
 
 #Start Respeaker-Switcher in Background
