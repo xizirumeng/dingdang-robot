@@ -19,6 +19,8 @@ import hashlib
 import datetime
 import hmac
 import sys
+import time
+from dateutil import parser
 
 from requests.packages.urllib3.exceptions import InsecureRequestWarning
 requests.packages.urllib3.disable_warnings(InsecureRequestWarning)
@@ -233,6 +235,20 @@ class BaiduSTT(AbstractSTTEngine):
         return config
 
     def get_token(self):
+        cache = open(dingdangpath.TEMP_PATH+'/baidutoken.ini' , 'r+')
+        try:
+            pms = cache.readlines()
+            if len(pms) > 0:
+                time = pms[0]
+                tk = pms[1]
+                # 计算token是否过期 86400
+                time = parser.parse(time)
+                endtime = datetime.datetime.now()
+                if (endtime - time).seconds <= 86300:
+                    return tk
+
+        finally:
+            cache.close()
         URL = 'http://openapi.baidu.com/oauth/2.0/token'
         params = urllib.urlencode({'grant_type': 'client_credentials',
                                    'client_id': self.api_key,
@@ -241,6 +257,14 @@ class BaiduSTT(AbstractSTTEngine):
         try:
             r.raise_for_status()
             token = r.json()['access_token']
+            # 存储token
+            try:
+                cache = open(dingdangpath.TEMP_PATH+'/baidutoken.ini' , 'w')
+                cache.write(datetime.datetime.now() + '\n')
+                cache.write(token)
+            finally:
+                cache.close()
+
             return token
         except requests.exceptions.HTTPError:
             self._logger.critical('Token request failed with response: %r',
