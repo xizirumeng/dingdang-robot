@@ -4,10 +4,6 @@
 # Do not make changes to this file unless you know what you are doing--modify
 # the SWIG interface file instead.
 
-
-
-
-
 from sys import version_info as _swig_python_version_info
 if _swig_python_version_info >= (2, 6, 0):
     def swig_import_helper():
@@ -34,6 +30,10 @@ try:
     _swig_property = property
 except NameError:
     pass  # Python < 2.2 doesn't have 'property'.
+
+try:
+    import builtins as __builtin__
+except ImportError:
     import __builtin__
 
 def _swig_setattr_nondynamic(self, class_type, name, value, static=1):
