@@ -11,7 +11,7 @@ sudo rm -r /root/userInfo
 sleep 1
 
 #Update dingdang-robot
-cd /home/pi/dingdang
+cd /root/software/dingdang
 git pull
 
 #Update dingdang Requirements
@@ -19,7 +19,7 @@ sudo pip install --upgrade -r client/requirements.txt
 sleep 1
 
 #Update dingdang-contrib
-cd /home/pi/.dingdang/contrib
+cd /root/.dingdang/contrib
 git pull
 
 #Update dingdang-contrib Requirements
@@ -27,8 +27,8 @@ sudo pip install --upgrade -r requirements.txt
 sleep 1
 
 #Restore Configuration of AlsaMixer
-if [ -f /home/pi/asound.state ]; then
-    alsactl --file=/home/pi/asound.state restore
+if [ -f /root/asound.state ]; then
+    alsactl --file=/root/asound.state restore
     sleep 1
 fi
 
@@ -37,6 +37,6 @@ sudo tmux new-session -d -s $session_name $HOME/dingdang/dingdang.py
 sleep 1
 
 #Start Respeaker-Switcher in Background
-if [ -d /home/pi/ReSpeaker-Switcher ]; then
-    sudo python /home/pi/ReSpeaker-Switcher/switcher.py &
+if [ -d /root/ReSpeaker-Switcher ]; then
+    sudo python /root/ReSpeaker-Switcher/switcher.py &
 fi
