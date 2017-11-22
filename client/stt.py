@@ -260,7 +260,7 @@ class BaiduSTT(AbstractSTTEngine):
             # 存储token
             try:
                 cache = open(dingdangpath.TEMP_PATH+'/baidutoken.ini' , 'w')
-                cache.write(datetime.datetime.now() + '\n')
+                cache.write(str(datetime.datetime.now()) + '\n')
                 cache.write(token)
             finally:
                 cache.close()
