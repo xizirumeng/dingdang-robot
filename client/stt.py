@@ -21,7 +21,6 @@ import hmac
 import sys
 import time
 from dateutil import parser
-
 from requests.packages.urllib3.exceptions import InsecureRequestWarning
 requests.packages.urllib3.disable_warnings(InsecureRequestWarning)
 
@@ -235,7 +234,7 @@ class BaiduSTT(AbstractSTTEngine):
         return config
 
     def get_token(self):
-        cache = open(dingdangpath.TEMP_PATH+'/baidutoken.ini' , 'a+')
+        cache = open(dingdangpath.TEMP_PATH+'/baidustt.ini' , 'a+')
         try:
             pms = cache.readlines()
             if len(pms) > 0:
@@ -259,7 +258,7 @@ class BaiduSTT(AbstractSTTEngine):
             token = r.json()['access_token']
             # 存储token
             try:
-                cache = open(dingdangpath.TEMP_PATH+'/baidutoken.ini' , 'w')
+                cache = open(dingdangpath.TEMP_PATH+'/baidustt.ini' , 'w')
                 cache.write(str(datetime.datetime.now()) + '\n')
                 cache.write(token)
             finally:
