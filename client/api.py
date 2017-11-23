@@ -8,10 +8,7 @@ def api_service(mic, brain, user, password, port):
     def index(name):
         u = request.query.u
         p = request.query.p
-        print p, password
-        print u, user
-        print hashlib.md5(p), hashlib.md5(password)
-        if user != u or hashlib.md5(p) != hashlib.md5(password):
+        if user != u or hashlib.md5(p).hexdigest() != hashlib.md5(password).hexdigest():
             return template('Incorrect username or password !', name=name)
         command = request.query.command
         if command.find('[control]'):
