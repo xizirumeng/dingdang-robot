@@ -17,10 +17,10 @@ class Conversation(object):
         self.brain = Brain(mic, profile)
         self.notifier = Notifier(profile, self.brain)
         # start api service
-        # thread.start_new_thread(api.api_service, (self.mic, self.brain, \
-        #                                           profile["api"]["user"], \
-        #                                           profile["api"]["password"], \
-        #                                           profile["api"]["port"],))
+        thread.start_new_thread(api.api_service, (self.mic, self.brain, \
+                                                  profile["api"]["user"], \
+                                                  profile["api"]["password"], \
+                                                  profile["api"]["port"],))
 
     def is_proper_time(self):
         """

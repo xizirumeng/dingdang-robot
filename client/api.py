@@ -4,7 +4,7 @@ import hashlib
 from bottle import route, run, template, request, error
 def api_service(mic, brain, user, password, port):
     logger = logging.getLogger(__name__)
-    @route('/dingdang/<name>', method = 'POST')
+    @route('/dingdang/<name>', method = 'GET')
     def index(name):
         u = request.forms.get("u")
         p = request.forms.get("p")
@@ -16,7 +16,7 @@ def api_service(mic, brain, user, password, port):
             brain.query([command.replace('[control]', '').strip()])
         elif command.find('[echo]'):
             mic.say(command.replace('[echo]', '').strip())
-        elif command.find('[echo1]'):
+        elif command.find('[shell]'):
             mic.say(command.replace('[echo]', '').strip())
 
         return template('<b>Hello {{name}}</b>!', name=name)
