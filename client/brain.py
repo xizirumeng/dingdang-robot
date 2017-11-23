@@ -64,6 +64,7 @@ class Brain(object):
     def isEnabled(self, plugin):
         """
         whether a plugin is enabled.
+        Default disable
         """
         if plugin is None:
             return False
@@ -73,7 +74,7 @@ class Brain(object):
         if slug in self.profile and 'enable' in self.profile[slug]:
             return self.profile[slug]['enable']
         else:
-            return True
+            return False
 
     def query(self, texts):
         """
