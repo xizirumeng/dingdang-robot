@@ -34,7 +34,7 @@ def sendEmail(SUBJECT, BODY, ATTACH_LIST, TO, FROM, SENDER,
     try:
         session = smtplib.SMTP() if not ssl else smtplib.SMTP_SSL()
         session.connect(SMTP_SERVER, SMTP_PORT)
-        session.starttls()
+        # session.starttls() 部分邮箱不支持，故关闭
         session.login(FROM, PASSWORD)
         session.sendmail(SENDER, TO, msg.as_string())
         session.quit()
