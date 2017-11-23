@@ -12,7 +12,7 @@ import subprocess
 def sendEmail(SUBJECT, BODY, ATTACH_LIST, TO, FROM, SENDER,
               PASSWORD, SMTP_SERVER, SMTP_PORT,ssl):
     """Sends an email."""
-    txt = MIMEText(BODY.encode('utf-8'), 'html', 'utf-8')
+    txt = MIMEText(BODY.encode('utf-8'), 'text', 'utf-8')
     msg = MIMEMultipart()
     msg.attach(txt)
     _logger = logging.getLogger(__name__)
@@ -56,10 +56,6 @@ def emailUser(profile, SUBJECT="", BODY="This is sent by Raspberry Pi", ATTACH_L
         BODY -- body text of the email
     """
     _logger = logging.getLogger(__name__)
-    # add footer
-    if BODY:
-        BODY = u"%s，<br><br>这是您要的内容：<br>%s<br>" % (profile['first_name'], BODY)
-
     recipient = profile['email']['address']
     robot_name = u'叮当'
     if profile['robot_name_cn']:

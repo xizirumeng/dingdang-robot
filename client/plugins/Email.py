@@ -174,9 +174,6 @@ def fetchUnreadEmails(profile, since=None, markRead=False, limit=None):
                 msgs.append(msg)
             # 全部标记为已读
             conn.store(num, '+FLAGS', '\Seen')
-            # if isEchoEmail(msg, profile):
-            #     conn.store(num, '+FLAGS', '\Seen')
-
     conn.close()
     conn.logout()
 
