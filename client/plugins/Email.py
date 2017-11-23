@@ -96,7 +96,9 @@ def isEchoEmail(msg, profile):
 def isControlEmail(msg, profile):
     """ Whether an email is a control email"""
     subject = getSubject(msg, profile)
-    if '[control]' in subject and isSelfEmail(msg, profile):
+    # if '[control]' in subject and isSelfEmail(msg, profile):
+    # 更改为所有用户都可以控制
+    if '[control]' in subject:
         return True
     return False
 
