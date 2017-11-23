@@ -16,7 +16,6 @@ def sendEmail(SUBJECT, BODY, ATTACH_LIST, TO, FROM, SENDER,
     msg = MIMEMultipart()
     msg.attach(txt)
     _logger = logging.getLogger(__name__)
-
     for attach in ATTACH_LIST:
         try:
             att = MIMEText(open(attach, 'rb').read(), 'base64', 'utf-8')
@@ -35,7 +34,7 @@ def sendEmail(SUBJECT, BODY, ATTACH_LIST, TO, FROM, SENDER,
     try:
         session = smtplib.SMTP() if not ssl else smtplib.SMTP_SSL()
         session.connect(SMTP_SERVER, SMTP_PORT)
-        session.starttls()
+        # session.starttls()
         session.login(FROM, PASSWORD)
         session.sendmail(SENDER, TO, msg.as_string())
         session.close()
@@ -76,9 +75,7 @@ def emailUser(profile, SUBJECT="", BODY="", ATTACH_LIST=[]):
         server = profile['email']['smtp_server']
         port = profile['email']['smtp_port']
         ssl = False if not profile['email'].has_key('smtp_ssl') else profile['email']['smtp_ssl']
-        sendEmail(SUBJECT, BODY, ATTACH_LIST, to, user,
-                  recipient, password, server, port,ssl)
-
+        sendEmail(SUBJECT, BODY, ATTACH_LIST, to, user, recipient, password, server, port,ssl)
         return True
     except Exception, e:
         _logger.error(e)

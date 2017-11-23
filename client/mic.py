@@ -133,11 +133,7 @@ class Mic:
         LISTEN_TIME = 10
 
         # prepare recording stream
-        stream = self._audio.open(format=pyaudio.paInt16,
-                                  channels=1,
-                                  rate=RATE,
-                                  input=True,
-                                  frames_per_buffer=CHUNK)
+        stream = self._audio.open(format=pyaudio.paInt16,channels=1,rate=RATE,input=True,frames_per_buffer=CHUNK)
 
         # stores the audio data
         frames = []
