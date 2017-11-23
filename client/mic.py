@@ -290,12 +290,9 @@ class Mic:
                 data = stream.read(CHUNK, exception_on_overflow=False)
                 frames.append(data)
                 score = self.getScore(data)
-
                 lastN.pop(0)
                 lastN.append(score)
-
                 average = sum(lastN) / float(len(lastN))
-
                 # TODO: 0.8 should not be a MAGIC NUMBER!
                 if average < THRESHOLD * 0.8:
                     break
