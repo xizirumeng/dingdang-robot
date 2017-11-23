@@ -34,9 +34,10 @@ def sendEmail(SUBJECT, BODY, ATTACH_LIST, TO, FROM, SENDER,
     try:
         session = smtplib.SMTP() if not ssl else smtplib.SMTP_SSL()
         session.connect(SMTP_SERVER, SMTP_PORT)
-        # session.starttls()
+        session.starttls()
         session.login(FROM, PASSWORD)
         session.sendmail(SENDER, TO, msg.as_string())
+        session.quit()
         session.close()
         return True
     except Exception, e:
@@ -44,7 +45,7 @@ def sendEmail(SUBJECT, BODY, ATTACH_LIST, TO, FROM, SENDER,
         return False
 
 
-def emailUser(profile, SUBJECT="", BODY="", ATTACH_LIST=[]):
+def emailUser(profile, SUBJECT="", BODY="This is sent by Raspberry Pi", ATTACH_LIST=[]):
     """
     sends an email.
 
