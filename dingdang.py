@@ -4,16 +4,15 @@
 import os
 import sys
 import logging
-import time
 import yaml
 import argparse
-import threading
+import thread
 from client import tts
 from client import stt
 from client import dingdangpath
 from client import diagnose
 from client.conversation import Conversation
-from client.tts import SimpleMp3Player
+from client import api
 
 # Add dingdangpath.LIB_PATH to sys.path
 sys.path.append(dingdangpath.LIB_PATH)
@@ -102,7 +101,6 @@ class Dingdang(object):
         if 'robot_name' in self.config:
             persona = self.config["robot_name"]
         conversation = Conversation(persona, self.mic, self.config)
-
         self.mic.say(salutation)
         conversation.handleForever()
 

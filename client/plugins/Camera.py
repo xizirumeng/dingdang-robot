@@ -67,7 +67,7 @@ def handle(text, mic, profile):
             return
         dest_file = os.path.join(dest_path, "%s.jpg" % time.time())
         if usb_camera:
-            command = "fswebcam --no-banner -r 1024x765 -q "
+            command = "fswebcam --no-banner -r 1024x768 -q "
             if vertical_flip:
                 command = command+' -s v '
             if horizontal_flip:
