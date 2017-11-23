@@ -214,7 +214,7 @@ class BaiduSTT(AbstractSTTEngine):
         self.api_key = api_key
         self.secret_key = secret_key
         self.token = ''
-        self.token_time = None
+        self.token_time = ''
 
     @classmethod
     def get_config(cls):
@@ -285,7 +285,7 @@ class BaiduSTT(AbstractSTTEngine):
         frame_rate = wav_file.getframerate()
         audio = wav_file.readframes(n_frames)
         base_data = base64.b64encode(audio)
-        if self.token == '' or (datetime.datetime.now() - self.token_time).days >= 29:
+        if self.token == '' or (datetime.datetime.now() - parser.parse(self.token_time)).days >= 29:
             self.token = self.get_token()
         data = {"format": "wav",
                 "token": self.token,

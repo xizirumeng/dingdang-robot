@@ -445,7 +445,7 @@ class BaiduTTS(AbstractMp3TTSEngine):
         self.secret_key = secret_key
         self.per = per
         self.token = ''
-        self.token_time = None
+        self.token_time = ''
 
     @classmethod
     def get_config(cls):
@@ -500,7 +500,7 @@ class BaiduTTS(AbstractMp3TTSEngine):
                 cache = open(dingdangpath.TEMP_PATH + '/baidutts.ini', 'w')
                 cache.write(str(datetime.datetime.now()) + '\n')
                 cache.write(token)
-                self.token_time = datetime.datetime.now()
+                self.token_time = str(datetime.datetime.now())
             finally:
                 cache.close()
             return token
@@ -517,7 +517,7 @@ class BaiduTTS(AbstractMp3TTSEngine):
         return text.split('@@@')
 
     def get_speech(self, phrase):
-        if self.token == '' or (datetime.datetime.now() - self.token_time).days >= 29:
+        if self.token == '' or (datetime.datetime.now() - parser.parse(self.token_time)).days >= 29:
             self.token = self.get_token()
         query = {'tex': phrase,
                  'lan': 'zh',
