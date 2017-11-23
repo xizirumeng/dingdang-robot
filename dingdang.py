@@ -149,5 +149,4 @@ if __name__ == "__main__":
     except Exception:
         logger.error("Error occured!", exc_info=True)
         sys.exit(1)
-
     app.run()

@@ -70,12 +70,13 @@ def emailUser(profile, SUBJECT="", BODY="", ATTACH_LIST=[]):
         return False
 
     try:
-        user = profile['email']['address'] if not profile['email'].has_key('recipients') else profile['email']['recipients']
+        user = profile['email']['address']
+        to = user if not profile['email'].has_key('recipients') else profile['email']['recipients']
         password = profile['email']['password']
         server = profile['email']['smtp_server']
         port = profile['email']['smtp_port']
         ssl = False if not profile['email'].has_key('smtp_ssl') else profile['email']['smtp_ssl']
-        sendEmail(SUBJECT, BODY, ATTACH_LIST, user, user,
+        sendEmail(SUBJECT, BODY, ATTACH_LIST, to, user,
                   recipient, password, server, port,ssl)
 
         return True
