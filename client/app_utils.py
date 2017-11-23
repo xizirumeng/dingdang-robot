@@ -10,7 +10,7 @@ import subprocess
 
 
 def sendEmail(SUBJECT, BODY, ATTACH_LIST, TO, FROM, SENDER,
-              PASSWORD, SMTP_SERVER, SMTP_PORT):
+              PASSWORD, SMTP_SERVER, SMTP_PORT,ssl):
     """Sends an email."""
     txt = MIMEText(BODY.encode('utf-8'), 'html', 'utf-8')
     msg = MIMEMultipart()
@@ -33,7 +33,7 @@ def sendEmail(SUBJECT, BODY, ATTACH_LIST, TO, FROM, SENDER,
     msg['Subject'] = SUBJECT
 
     try:
-        session = smtplib.SMTP_SSL()
+        session = smtplib.SMTP() if not ssl else smtplib.SMTP_SSL()
         session.connect(SMTP_SERVER, SMTP_PORT)
         session.starttls()
         session.login(FROM, PASSWORD)
@@ -74,8 +74,9 @@ def emailUser(profile, SUBJECT="", BODY="", ATTACH_LIST=[]):
         password = profile['email']['password']
         server = profile['email']['smtp_server']
         port = profile['email']['smtp_port']
+        ssl = False if not profile['email'].has_key('smtp_ssl') else profile['email']['smtp_ssl']
         sendEmail(SUBJECT, BODY, ATTACH_LIST, user, user,
-                  recipient, password, server, port)
+                  recipient, password, server, port,ssl)
 
         return True
     except Exception, e:

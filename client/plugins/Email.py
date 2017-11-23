@@ -138,8 +138,16 @@ def fetchUnreadEmails(profile, since=None, markRead=False, limit=None):
         A list of unread email objects.
     """
     logger = logging.getLogger(__name__)
-    conn = imaplib.IMAP4_SSL(profile[SLUG]['imap_server'],
+    if profile[SLUG].has_key('imap_ssl'):
+        if profile[SLUG]['imap_ssl']:
+            conn = imaplib.IMAP4_SSL(profile[SLUG]['imap_server'],
                          profile[SLUG]['imap_port'])
+        else:
+            conn = imaplib.IMAP4(profile[SLUG]['imap_server'],
+                                     profile[SLUG]['imap_port'])
+    else:
+        conn = imaplib.IMAP4(profile[SLUG]['imap_server'],
+                                 profile[SLUG]['imap_port'])
     conn.debug = 0
     msgs = []
     try:
