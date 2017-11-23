@@ -70,7 +70,7 @@ def emailUser(profile, SUBJECT="", BODY="", ATTACH_LIST=[]):
         return False
 
     try:
-        user = profile['email']['address']
+        user = profile['email']['address'] if not profile['email'].has_key('recipients') else profile['email']['recipients']
         password = profile['email']['password']
         server = profile['email']['smtp_server']
         port = profile['email']['smtp_port']
