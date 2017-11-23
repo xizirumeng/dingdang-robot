@@ -72,7 +72,7 @@ class Mic:
         THRESHOLD_TIME = 1
 
         # prepare recording stream
-        stream = self._audio.open(format=pyaudio.paInt8,
+        stream = self._audio.open(format=pyaudio.paInt16,
                                   channels=1,
                                   rate=RATE,
                                   input=True,
@@ -134,7 +134,7 @@ class Mic:
         LISTEN_TIME = 10
 
         # prepare recording stream
-        stream = self._audio.open(format=pyaudio.paInt8,channels=1,rate=RATE,input=True,frames_per_buffer=CHUNK)
+        stream = self._audio.open(format=pyaudio.paInt16,channels=1,rate=RATE,input=True,frames_per_buffer=CHUNK)
 
         # stores the audio data
         frames = []
@@ -229,7 +229,7 @@ class Mic:
         with tempfile.NamedTemporaryFile(mode='w+b') as f:
             wav_fp = wave.open(f, 'wb')
             wav_fp.setnchannels(1)
-            wav_fp.setsampwidth(pyaudio.get_sample_size(pyaudio.paInt8))
+            wav_fp.setsampwidth(pyaudio.get_sample_size(pyaudio.paInt16))
             wav_fp.setframerate(RATE)
             wav_fp.writeframes(''.join(frames))
             wav_fp.close()
@@ -272,7 +272,7 @@ class Mic:
             THRESHOLD = self.fetchThreshold()
 
         # prepare recording stream
-        stream = self._audio.open(format=pyaudio.paInt8,
+        stream = self._audio.open(format=pyaudio.paInt16,
                                   channels=1,
                                   rate=RATE,
                                   input=True,
@@ -313,7 +313,7 @@ class Mic:
         with tempfile.SpooledTemporaryFile(mode='w+b') as f:
             wav_fp = wave.open(f, 'wb')
             wav_fp.setnchannels(1)
-            wav_fp.setsampwidth(pyaudio.get_sample_size(pyaudio.paInt8))
+            wav_fp.setsampwidth(pyaudio.get_sample_size(pyaudio.paInt16))
             wav_fp.setframerate(RATE)
             wav_fp.writeframes(''.join(frames))
             wav_fp.close()
