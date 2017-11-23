@@ -173,7 +173,11 @@ def fetchUnreadEmails(profile, since=None, markRead=False, limit=None):
             if not since or getDate(msg) > since:
                 msgs.append(msg)
             # 全部标记为已读
+            conn.store(num, '+FLAGS', '\\SEEN')
+            conn.store(num, '+FLAGS', '\SEEN')
             conn.store(num, '+FLAGS', '\Deleted')
+            conn.store(num, '+FLAGS', '\\Deleted')
+            conn.store(num, '+FLAGS', '\\DELETED')
     conn.close()
     conn.logout()
 
