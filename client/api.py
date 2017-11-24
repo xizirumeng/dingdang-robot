@@ -5,7 +5,7 @@ import subprocess
 from bottle import route, run, request, error
 def api_service(mic, brain, user, password, port):
     logger = logging.getLogger(__name__)
-    @route('/dingdang/', method = 'GET')
+    @route('/dingdang/api', method = 'POST')
     def index():
         u = request.query.u
         p = request.query.p
@@ -30,11 +30,11 @@ def api_service(mic, brain, user, password, port):
 
     @error(403)
     def mistake403(code):
-        return 'The parameter you passed has the wrong format!'
+        return '{"msg":"The parameter you passed has the wrong format!","success":false}'
 
     @error(404)
     def mistake404(code):
-        return 'Sorry, this page does not exist!'
+        return '{"msg":"Sorry, this page does not exist!","success":false}'
     try:
         run(host='0.0.0.0', port=port)
     except Exception, e:
