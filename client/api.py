@@ -12,10 +12,11 @@ def api_service(mic, brain, user, password, port):
         if user != u or hashlib.md5(p).hexdigest() != hashlib.md5(password).hexdigest():
             return template('Incorrect username or password !', name=name)
         command = request.query.command
+        print command
         if command.find('[control]'):
-            thread.start_new_thread(control, command.replace('[control]', '').strip())
+            thread.start_new_thread(control, command)
         elif command.find('[echo]'):
-            thread.start_new_thread(echo, command.replace('[echo]', '').strip())
+            thread.start_new_thread(echo, command)
         elif command.find('[shell]'):
             mic.say(command.replace('[echo]', '').strip())
 
@@ -29,12 +30,12 @@ def api_service(mic, brain, user, password, port):
     def mistake404(code):
         return 'Sorry, this page does not exist!'
 
-    def control(txt):
+    def control(command):
         # 执行叮当命令
-        brain.query([txt])
-    def echo(txt):
+        brain.query([command.replace('[control]', '').strip()])
+    def echo(command):
         # 执行叮当命令
-        mic.say([txt])
+        mic.say([command.replace('[echo]', '').strip()])
     try:
         run(host='0.0.0.0', port=port)
     except Exception, e:
