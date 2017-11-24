@@ -13,11 +13,11 @@ def api_service(mic, brain, user, password, port):
             return template('Incorrect username or password !', name=name)
         command = request.query.command
         print command
-        if command.find('[control]'):
+        if '[control]' in command:
             thread.start_new_thread(control, command)
-        elif command.find('[echo]'):
+        elif '[echo]' in command:
             thread.start_new_thread(echo, command)
-        elif command.find('[shell]'):
+        elif '[shell]' in command:
             mic.say(command.replace('[echo]', '').strip())
 
         return template('<b>Hello {{name}}</b>!', name=name)
