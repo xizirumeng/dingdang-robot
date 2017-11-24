@@ -64,8 +64,8 @@ class Mic:
 
         # TODO: Consolidate variables from the next three functions
         THRESHOLD_MULTIPLIER = 2.5
-        RATE = 16000
-        CHUNK = 512
+        RATE = 48000.0
+        CHUNK = 256
 
         # number of seconds to allow to establish threshold
         THRESHOLD_TIME = 1
@@ -123,8 +123,8 @@ class Mic:
         """
 
         THRESHOLD_MULTIPLIER = 2.5
-        RATE = 16000
-        CHUNK = 512
+        RATE = 48000.0
+        CHUNK = 256
 
         # number of seconds to allow to establish threshold
         THRESHOLD_TIME = 1
@@ -262,8 +262,8 @@ class Mic:
             Returns a list of the matching options or None
         """
 
-        RATE = 16000
-        CHUNK = 512
+        RATE = 48000.0
+        CHUNK = 256
         LISTEN_TIME = 12
 
         # check if no threshold provided
@@ -320,8 +320,7 @@ class Mic:
             frames = []
             return self.active_stt_engine.transcribe(f)
 
-    def say(self, phrase,
-            OPTIONS=" -vdefault+m3 -p 40 -s 160 --stdout > say.wav"):
+    def say(self, phrase):
         self._logger.info(u"机器人说：%s" % phrase)
         self.stop_passive = True
         self.speaker.say(phrase)

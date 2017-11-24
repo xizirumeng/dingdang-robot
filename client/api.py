@@ -1,6 +1,7 @@
 # -*- coding: utf-8-*-
 import logging
 import hashlib
+import thread
 from bottle import route, run, template, request, error
 def api_service(mic, brain, user, password, port):
     logger = logging.getLogger(__name__)
@@ -12,10 +13,9 @@ def api_service(mic, brain, user, password, port):
             return template('Incorrect username or password !', name=name)
         command = request.query.command
         if command.find('[control]'):
-            # 执行叮当命令
-            brain.query([command.replace('[control]', '').strip()])
+            thread.start_new_thread(control, command.replace('[control]', '').strip())
         elif command.find('[echo]'):
-            mic.say(command.replace('[echo]', '').strip())
+            thread.start_new_thread(echo, command.replace('[echo]', '').strip())
         elif command.find('[shell]'):
             mic.say(command.replace('[echo]', '').strip())
 
@@ -29,6 +29,12 @@ def api_service(mic, brain, user, password, port):
     def mistake404(code):
         return 'Sorry, this page does not exist!'
 
+    def control(txt):
+        # 执行叮当命令
+        brain.query([txt])
+    def echo(txt):
+        # 执行叮当命令
+        mic.say([txt])
     try:
         run(host='0.0.0.0', port=port)
     except Exception, e:
