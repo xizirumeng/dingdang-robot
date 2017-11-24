@@ -7,12 +7,12 @@ def api_service(mic, brain, user, password, port):
     logger = logging.getLogger(__name__)
     @route('/dingdang/api', method = 'POST')
     def index():
-        u = request.query.u
-        p = request.query.p
-        html = request.query.html
+        u = request.POST.get("u")
+        p = request.POST.get("p")
+        html = request.POST.get("html")
         if user != u or hashlib.md5(p).hexdigest() != hashlib.md5(password).hexdigest():
             return '{"msg":"Incorrect username or password","success":false}'
-        command = request.query.command
+        command = request.POST.get("command")
         if '[control]' in command:
             # 执行命令
             brain.query([command.replace('[control]','').strip()])
