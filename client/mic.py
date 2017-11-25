@@ -136,6 +136,7 @@ class Mic:
         try:
             stream = self._audio.open(format=pyaudio.paInt16, channels=1, rate=RATE, input=True,frames_per_buffer=CHUNK)
         except Exception, e:
+            self._logger.error(e)
             stream.stop_stream()
             stream.close()
             self._audio.close()
