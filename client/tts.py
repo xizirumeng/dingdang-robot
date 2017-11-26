@@ -473,21 +473,6 @@ class BaiduTTS(AbstractMp3TTSEngine):
         return diagnose.check_network_connection()
 
     def get_token(self):
-        cache = open(dingdangpath.TEMP_PATH + '/baidutts.ini', 'a+')
-        try:
-            pms = cache.readlines()
-            if len(pms) > 0:
-                time = pms[0]
-                tk = pms[1]
-                # 计算token是否过期 官方说明一个月，这里保守估计29天
-                time = parser.parse(time)
-                endtime = datetime.datetime.now()
-                if (endtime - time).days <= 29:
-                    self.token_time = str(time)
-                    return tk
-
-        finally:
-            cache.close()
         URL = 'http://openapi.baidu.com/oauth/2.0/token'
         params = urllib.urlencode({'grant_type': 'client_credentials',
                                    'client_id': self.api_key,
@@ -495,15 +480,8 @@ class BaiduTTS(AbstractMp3TTSEngine):
         r = requests.get(URL, params=params)
         try:
             r.raise_for_status()
+            self.token_time = str(datetime.datetime.now())
             token = r.json()['access_token']
-            # 存储token
-            try:
-                cache = open(dingdangpath.TEMP_PATH + '/baidutts.ini', 'w')
-                cache.write(str(datetime.datetime.now()) + '\n')
-                cache.write(token)
-                self.token_time = str(datetime.datetime.now())
-            finally:
-                cache.close()
             return token
         except requests.exceptions.HTTPError:
             self._logger.critical('Token request failed with response: %r',
@@ -518,7 +496,7 @@ class BaiduTTS(AbstractMp3TTSEngine):
         return text.split('@@@')
 
     def get_speech(self, phrase):
-        if self.token == '' or self.token_time == '' or (datetime.datetime.now() - parser.parse(self.token_time)).days >= 29:
+        if self.token == '' or (datetime.datetime.now() - parser.parse(self.token_time)).days >= 29:
             self.token = self.get_token()
         query = {'tex': phrase,
                  'lan': 'zh',
