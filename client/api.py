@@ -24,8 +24,10 @@ def api_service(mic, brain, user, password, port):
         elif '[shell]' in command:
             p = subprocess.Popen(command.replace('[shell]','').strip(), shell = True, stdout = subprocess.PIPE)
             out, err = p.communicate()
+            result = ''
             for line in out.splitlines():
-                return '{"msg":"success","success":true,"data":"'+ (html %line) +'"}'
+                result += line
+            return '{"msg":"success","success":true,"data":"'+ (html %line) +'"}'
         return '{"msg":"success","success":true}'
 
     @error(403)

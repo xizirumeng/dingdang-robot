@@ -65,7 +65,7 @@ class Mic:
         # TODO: Consolidate variables from the next three functions
         THRESHOLD_MULTIPLIER = 2.5
         RATE = 16000
-        CHUNK = 256
+        CHUNK = 4096
 
         # number of seconds to allow to establish threshold
         THRESHOLD_TIME = 1
@@ -86,7 +86,7 @@ class Mic:
         # calculate the long run average, and thereby the proper threshold
         for i in range(0, RATE / CHUNK * THRESHOLD_TIME):
             try:
-                data = stream.read(CHUNK)
+                data = stream.read(CHUNK, exception_on_overflow=False)
                 frames.append(data)
 
                 # save this data point as a score
@@ -124,7 +124,7 @@ class Mic:
 
         THRESHOLD_MULTIPLIER = 2.5
         RATE = 16000
-        CHUNK = 256
+        CHUNK = 4096
 
         # number of seconds to allow to establish threshold
         THRESHOLD_TIME = 1
@@ -155,7 +155,7 @@ class Mic:
                 if self.stop_passive:
                     break
 
-                data = stream.read(CHUNK)
+                data = stream.read(CHUNK, exception_on_overflow=False)
                 frames.append(data)
 
                 # save this data point as a score
@@ -182,7 +182,7 @@ class Mic:
                 if self.stop_passive:
                     break
 
-                data = stream.read(CHUNK)
+                data = stream.read(CHUNK, exception_on_overflow=False)
                 frames.append(data)
                 score = self.getScore(data)
 
@@ -215,7 +215,7 @@ class Mic:
             try:
                 if self.stop_passive:
                     break
-                data = stream.read(CHUNK)
+                data = stream.read(CHUNK, exception_on_overflow=False)
                 frames.append(data)
             except Exception, e:
                 self._logger.debug(e)
@@ -268,7 +268,7 @@ class Mic:
         """
 
         RATE = 16000
-        CHUNK = 256
+        CHUNK = 4096
         LISTEN_TIME = 12
 
         # check if no threshold provided
@@ -298,7 +298,7 @@ class Mic:
                 lastN.append(score)
                 average = sum(lastN) / float(len(lastN))
                 # TODO: 0.8 should not be a MAGIC NUMBER!
-                if average < THRESHOLD * 0.8:
+                if average < THRESHOLD * 0.5:
                     break
             except Exception, e:
                 self._logger.error(e)
