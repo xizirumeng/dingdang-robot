@@ -483,6 +483,7 @@ class BaiduTTS(AbstractMp3TTSEngine):
                 time = parser.parse(time)
                 endtime = datetime.datetime.now()
                 if (endtime - time).days <= 29:
+                    self.token_time = str(time)
                     return tk
 
         finally:
@@ -518,7 +519,7 @@ class BaiduTTS(AbstractMp3TTSEngine):
 
     def get_speech(self, phrase):
         print self.token_time+"-----------------"
-        if self.token == '' or (datetime.datetime.now() - parser.parse(self.token_time)).days >= 29:
+        if self.token == '' or self.token_time == '' or (datetime.datetime.now() - parser.parse(self.token_time)).days >= 29:
             self.token = self.get_token()
         query = {'tex': phrase,
                  'lan': 'zh',

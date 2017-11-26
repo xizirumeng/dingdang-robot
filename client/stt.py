@@ -245,6 +245,7 @@ class BaiduSTT(AbstractSTTEngine):
                 time = parser.parse(time)
                 endtime = datetime.datetime.now()
                 if (endtime - time).days <= 29:
+                    self.token_time = str(time)
                     return tk
 
         finally:
@@ -285,7 +286,7 @@ class BaiduSTT(AbstractSTTEngine):
         frame_rate = wav_file.getframerate()
         audio = wav_file.readframes(n_frames)
         base_data = base64.b64encode(audio)
-        if self.token == '' or (datetime.datetime.now() - parser.parse(self.token_time)).days >= 29:
+        if self.token == '' or self.token_time == '' (datetime.datetime.now() - parser.parse(self.token_time)).days >= 29:
             self.token = self.get_token()
         data = {"format": "wav",
                 "token": self.token,
