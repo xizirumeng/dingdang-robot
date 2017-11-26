@@ -65,7 +65,7 @@ class Mic:
         # TODO: Consolidate variables from the next three functions
         THRESHOLD_MULTIPLIER = 2.5
         RATE = 16000
-        CHUNK = 4096
+        CHUNK = 1024
 
         # number of seconds to allow to establish threshold
         THRESHOLD_TIME = 1
@@ -124,7 +124,7 @@ class Mic:
 
         THRESHOLD_MULTIPLIER = 2.5
         RATE = 16000
-        CHUNK = 4096
+        CHUNK = 1024
 
         # number of seconds to allow to establish threshold
         THRESHOLD_TIME = 1
@@ -268,7 +268,7 @@ class Mic:
         """
 
         RATE = 16000
-        CHUNK = 4096
+        CHUNK = 1024
         LISTEN_TIME = 12
 
         # check if no threshold provided
@@ -298,7 +298,7 @@ class Mic:
                 lastN.append(score)
                 average = sum(lastN) / float(len(lastN))
                 # TODO: 0.8 should not be a MAGIC NUMBER!
-                if average < THRESHOLD * 0.5:
+                if average < THRESHOLD * 0.7:
                     break
             except Exception, e:
                 self._logger.error(e)
