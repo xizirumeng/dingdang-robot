@@ -518,7 +518,6 @@ class BaiduTTS(AbstractMp3TTSEngine):
         return text.split('@@@')
 
     def get_speech(self, phrase):
-        print self.token_time+"-----------------"
         if self.token == '' or self.token_time == '' or (datetime.datetime.now() - parser.parse(self.token_time)).days >= 29:
             self.token = self.get_token()
         query = {'tex': phrase,
