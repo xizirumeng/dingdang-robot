@@ -169,12 +169,16 @@ def handle(text, mic, profile):
         mic.say('扫描到' + str(length) + '个音乐文件')
         music = MusicThread(files, mic, unlimited)
         music.start()
+        ask = False
         while True:
-            threshold, transcribed = mic.passiveListen(persona)
-            if not transcribed or not threshold:
-                continue
-            music.pause()
+            if not ask:
+                threshold, transcribed = mic.passiveListen(persona)
+                if not transcribed or not threshold:
+                    continue
+                music.pause()
+
             inputs = mic.activeListen()
+            ask = False
             if inputs and any(ext in inputs for ext in [u'结束', u'退出', u'停止', u'关闭']):
                 music.stop()
                 mic.say('结束播放')
@@ -202,7 +206,7 @@ def handle(text, mic, profile):
                 music.setrandom()
             else:
                 mic.say('说什么?')
-                music.proceed()
+                ask = True
     except Exception, e:
         logger.error(e)
         threshold, transcribed = (None, None)

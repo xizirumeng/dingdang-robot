@@ -42,13 +42,17 @@ class TulingRobot(AbstractRobot):
         super(self.__class__, self).__init__()
         self.mic = mic
         self.profile = profile
-        self.tuling_key = self.get_key()
+        self.tuling_key = self.get_key("1")
+        self.city = profile["tuling"]["city"]
+        self.province = profile["tuling"]["province"]
+        self.street = profile["tuling"]["street"]
+        self.index = 1
 
-    def get_key(self):
+    def get_key(self,index):
         if 'tuling' in self.profile:
             if 'tuling_key' in self.profile['tuling']:
                 tuling_key = \
-                        self.profile['tuling']['tuling_key']
+                        self.profile['tuling']['tuling_key_'+index]
         return tuling_key
 
     def chat(self, texts):
@@ -60,24 +64,65 @@ class TulingRobot(AbstractRobot):
         """
         msg = ''.join(texts)
         try:
-            url = "http://www.tuling123.com/openapi/api"
+            # url = "http://www.tuling123.com/openapi/api"
+            url = "http://openapi.tuling123.com/openapi/api/v2"
             userid = str(get_mac())[:32]
-            body = {'key': self.tuling_key, 'info': msg, 'userid': userid}
+            # body = {'key': self.tuling_key, 'info': msg, 'userid': userid}
+            body = {
+                "reqType":0,
+                "perception":{
+                    "inputText":{
+                        "text":msg
+                    },
+                    "selfInfo":{
+                        "city":self.city,
+                        "province":self.province,
+                        "street":self.street
+                    }
+                },
+                "userInfo":{
+                    "apiKey":self.tuling_key,
+                    "userId":userid
+                }
+            }
             r = requests.post(url, data=body)
             respond = json.loads(r.text)
             result = ''
-            if respond['code'] == 100000:
-                result = respond['text'].replace('<br>', '  ')
-                result = result.replace(u'\xa0', u' ')
-            elif respond['code'] == 200000:
-                result = respond['url']
-            elif respond['code'] == 302000:
-                for k in respond['list']:
-                    result = result + u"【" + k['source'] + u"】 " +\
-                             k['article'] + "\t" + k['detailurl'] + "\n"
+            # 成功
+            if respond["intent"]['code'] == 0:
+                # 判断是否为文本信息
+                if respond["results"][0]["groupType"] > 0:
+                    for i in respond["results"]:
+                        if i["resultType"] == "text":
+                            result = i['values']["text"].replace('<br>', '  ')
+                            result = result.replace(u'\xa0', u' ')
+                            break
+                    if result == "":
+                        result = '格式暂不支持'
+                elif respond["results"][0]["resultType"] == "text":
+                    # 单组文本消息
+                    result = respond[0]['values']["text"].replace('<br>', '  ')
+                    result = result.replace(u'\xa0', u' ')
+                elif respond["results"][0]["resultType"] == "url":
+                    # 链接
+                    result = respond[0]['values']["url"]
+                elif respond["results"][0]["resultType"] == "voice":
+                    # 音频
+                    result = respond[0]['values']["voice"]
+                elif respond["results"][0]["resultType"] == "video":
+                    # 视频
+                    result = respond[0]['values']["video"]
+                elif respond["results"][0]["resultType"] == "image":
+                    # 图片
+                    result = respond[0]['values']["image"]
+                elif respond["results"][0]["resultType"] == "news":
+                    # 图文
+                    result = respond[0]['values']["news"]
+            elif respond["intent"]['code'] == 4003:
+                self.tuling_key = self.get_key(str(self.index))
+                result = "已切换key值，再来一次吧"
             else:
-                result = respond['text'].replace('<br>', '  ')
-                result = result.replace(u'\xa0', u' ')
+                result = "图灵出错 错误代码 "+respond["intent"]['code']
             max_length = 200
             if 'max_length' in self.profile:
                 max_length = self.profile['max_length']

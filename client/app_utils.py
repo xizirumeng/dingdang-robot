@@ -79,7 +79,7 @@ def emailUser(profile, SUBJECT="", BODY="This is sent by Raspberry Pi", ATTACH_L
         return False
 
 
-def sendToUser(profile, SUBJECT="", BODY="",
+def sendToUser(profile, SUBJECT="", BODY="This is sent by Raspberry Pi",
                ATTACH_LIST=[], IMAGE_LIST=[]):
         return emailUser(profile, SUBJECT, BODY, ATTACH_LIST)
 
