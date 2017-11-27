@@ -83,6 +83,7 @@ class TulingRobot(AbstractRobot):
                 }
             }
             r = requests.post(url, data=body)
+            print r.text
             respond = json.loads(r.text)
             result = ''
             # 成功
@@ -119,7 +120,7 @@ class TulingRobot(AbstractRobot):
                 self.tuling_key = self.get_key(str(self.index))
                 result = "已切换key值，再来一次吧"
             else:
-                result = "图灵出错 错误代码 "+respond["intent"]['code']
+                result = "图灵出错 错误代码 "+str(respond["intent"]['code'])
             max_length = 200
             if 'max_length' in self.profile:
                 max_length = self.profile['max_length']
