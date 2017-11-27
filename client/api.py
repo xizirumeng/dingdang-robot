@@ -27,7 +27,7 @@ def api_service(mic, brain, user, password, port):
             result = ''
             for line in out.splitlines():
                 result += line
-            return '{"msg":"success","success":true,"data":"'+ (html %line) +'"}'
+            return '{"msg":"success","success":true,"data":"'+ (html %result) +'"}'
         return '{"msg":"success","success":true}'
 
     @error(403)
