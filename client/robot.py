@@ -73,9 +73,9 @@ class TulingRobot(AbstractRobot):
                     },
                     'selfInfo':{
                         'location':{
-                            'city':self.city,
-                            'province':self.province,
-                            'street':self.street
+                            'city':u'%s' %self.city,
+                            'province':u'%s' %self.province,
+                            'street':u'%s' %self.street
                         }
                     }
                 },
