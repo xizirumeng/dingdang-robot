@@ -50,11 +50,8 @@ class TulingRobot(AbstractRobot):
 
     def get_key(self,index):
         if 'tuling' in self.profile:
-            if 'tuling_key' in self.profile['tuling']:
-                tuling_key = \
-                        self.profile['tuling']['tuling_key_'+index]
+            tuling_key = self.profile['tuling']['tuling_key_'+index]
         return tuling_key
-
     def chat(self, texts):
         """
         使用图灵机器人聊天
