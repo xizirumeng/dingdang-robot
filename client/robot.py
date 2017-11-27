@@ -72,9 +72,11 @@ class TulingRobot(AbstractRobot):
                         "text":msg
                     },
                     "selfInfo":{
-                        "city":self.city,
-                        "province":self.province,
-                        "street":self.street
+                        "location":{
+                            "city":self.city,
+                            "province":self.province,
+                            "street":self.street
+                        }
                     }
                 },
                 "userInfo":{
