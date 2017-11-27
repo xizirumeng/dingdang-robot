@@ -82,6 +82,7 @@ class TulingRobot(AbstractRobot):
                     "userId":userid
                 }
             }
+            print str(body)
             r = requests.post(url, data=body)
             print r.text
             respond = json.loads(r.text)
