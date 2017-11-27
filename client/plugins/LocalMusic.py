@@ -170,6 +170,7 @@ def handle(text, mic, profile):
         music = MusicThread(files, mic, unlimited)
         music.start()
         ask = False
+        ask_num = 0
         while True:
             if not ask:
                 threshold, transcribed = mic.passiveListen(persona)
@@ -206,7 +207,13 @@ def handle(text, mic, profile):
                 music.setrandom()
             else:
                 mic.say('说什么?')
-                ask = True
+                if ask_num == 2:
+                    music.proceed()
+                    ask_num = 0
+                    ask = False
+                else:
+                    ask_num = ask_num + 1
+                    ask = True
     except Exception, e:
         logger.error(e)
         threshold, transcribed = (None, None)
