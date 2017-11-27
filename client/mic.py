@@ -64,7 +64,9 @@ class Mic:
 
         # TODO: Consolidate variables from the next three functions
         THRESHOLD_MULTIPLIER = 2.5
+        # 取样频率
         RATE = 16000
+        # pyAudio内部缓存的块的大小
         CHUNK = 1024
 
         # number of seconds to allow to establish threshold

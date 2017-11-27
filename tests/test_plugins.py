@@ -2,7 +2,7 @@
 # -*- coding: utf-8-*-
 from nose.tools import *
 from client import test_mic, diagnose, dingdangpath
-from client.plugins import Time, Echo, Email
+from client.plugins import Echo, Email
 
 DEFAULT_PROFILE = {
     'timezone': 'HKT'
@@ -35,12 +35,6 @@ class TestPlugins():
         inputs = []
         outputs = self.runConversation(query, inputs, Echo)
         assert outputs[0].strip() == u'你好吗'
-
-    def testTime(self):
-        query = u"现在几点"
-        inputs = []
-        outputs = self.runConversation(query, inputs, Time)
-        assert u'现在时间是' in outputs[0]
 
     def testEmail(self):
         if 'email' not in self.profile or 'enable' not in self.profile['email']:
