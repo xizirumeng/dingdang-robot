@@ -62,75 +62,37 @@ class TulingRobot(AbstractRobot):
         """
         msg = ''.join(texts)
         try:
-            # url = "http://www.tuling123.com/openapi/api"
-            url = "http://openapi.tuling123.com/openapi/api/v2"
+            url = "http://www.tuling123.com/openapi/api"
             userid = str(get_mac())[:32]
-            # body = {'key': self.tuling_key, 'info': msg, 'userid': userid}
-            body = {
-                'reqType':0,
-                'perception':{
-                    'inputText':{
-                        'text':msg
-                    },
-                    'selfInfo':{
-                        'location':{
-                            'city':urllib2.quote(self.city),
-                            'province':urllib2.quote(self.province),
-                            'street':urllib2.quote(self.street)
-                        }
-                    }
-                },
-                'userInfo':{
-                    'apiKey':self.tuling_key,
-                    'userId':userid
-                }
-            }
-            print str(body)
+            body = {'key': self.tuling_key, 'info': msg, 'userid': userid}
             r = requests.post(url, data=body)
-            print r.text
             respond = json.loads(r.text)
             result = ''
-            # 成功
-            if respond["intent"]['code'] == 0:
-                # 判断是否为文本信息
-                if respond["results"][0]["groupType"] > 0:
-                    for i in respond["results"]:
-                        if i["resultType"] == "text":
-                            result = i['values']["text"].replace('<br>', '  ')
-                            result = result.replace(u'\xa0', u' ')
-                            break
-                    if result == "":
-                        result = '格式暂不支持'
-                elif respond["results"][0]["resultType"] == "text":
-                    # 单组文本消息
-                    result = respond[0]['values']["text"].replace('<br>', '  ')
-                    result = result.replace(u'\xa0', u' ')
-                elif respond["results"][0]["resultType"] == "url":
-                    # 链接
-                    result = respond[0]['values']["url"]
-                elif respond["results"][0]["resultType"] == "voice":
-                    # 音频
-                    result = respond[0]['values']["voice"]
-                elif respond["results"][0]["resultType"] == "video":
-                    # 视频
-                    result = respond[0]['values']["video"]
-                elif respond["results"][0]["resultType"] == "image":
-                    # 图片
-                    result = respond[0]['values']["image"]
-                elif respond["results"][0]["resultType"] == "news":
-                    # 图文
-                    result = respond[0]['values']["news"]
-            elif respond["intent"]['code'] == 4003:
+            if respond['code'] == 100000:
+                result = respond['text'].replace('<br>', '  ')
+                result = result.replace(u'\xa0', u' ')
+            elif respond['code'] == 200000:
+                result = "[url]"+respond['url']
+            elif respond['code'] == 302000:
+                result = "[news]"
+                for k in respond['list']:
+                    result += result + u"【" + k['source'] + u"】 " + \
+                             k['article'] + "\t" + k['detailurl'] + "\n\n"
+            elif respond['code'] == 40004:
+                if self.index >= 5:
+                    self.index = 1
+                else:
+                    self.index = self.index+1
                 self.tuling_key = self.get_key(str(self.index))
                 result = "已切换key值，再来一次吧"
             else:
-                result = "图灵出错 错误代码 "+str(respond["intent"]['code'])
-            max_length = 200
+                result = "图灵出错 错误代码 "+str(respond['code']+"错误消息"+respond["text"])
+            max_length = 100
             if 'max_length' in self.profile:
                 max_length = self.profile['max_length']
             if len(result) > max_length and \
                self.profile['read_long_content'] is not None and \
-               not self.profile['read_long_content']:
+               not self.profile['read_long_content'] or '[news]' in result or '[url]' in result:
                 target = '邮件'
                 if sendToUser(self.profile, u'回答%s' % msg, result):
                     self.mic.say(u'%s发送成功！' % target)
