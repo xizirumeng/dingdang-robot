@@ -66,22 +66,22 @@ class TulingRobot(AbstractRobot):
             userid = str(get_mac())[:32]
             # body = {'key': self.tuling_key, 'info': msg, 'userid': userid}
             body = {
-                "reqType":0,
-                "perception":{
-                    "inputText":{
-                        "text":msg
+                'reqType':0,
+                'perception':{
+                    'inputText':{
+                        'text':msg
                     },
-                    "selfInfo":{
-                        "location":{
-                            "city":self.city,
-                            "province":self.province,
-                            "street":self.street
+                    'selfInfo':{
+                        'location':{
+                            'city':self.city,
+                            'province':self.province,
+                            'street':self.street
                         }
                     }
                 },
-                "userInfo":{
-                    "apiKey":self.tuling_key,
-                    "userId":userid
+                'userInfo':{
+                    'apiKey':self.tuling_key,
+                    'userId':userid
                 }
             }
             print str(body)
