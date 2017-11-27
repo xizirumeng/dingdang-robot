@@ -16,22 +16,7 @@ from client import api
 
 # Add dingdangpath.LIB_PATH to sys.path
 sys.path.append(dingdangpath.LIB_PATH)
-
-parser = argparse.ArgumentParser(description='Dingdang Voice Control Center')
-parser.add_argument('--local', action='store_true',
-                    help='Use text input instead of a real microphone')
-parser.add_argument('--no-network-check', action='store_true',
-                    help='Disable the network connection check')
-parser.add_argument('--diagnose', action='store_true',
-                    help='Run diagnose and exit')
-parser.add_argument('--debug', action='store_true', help='Show debug messages')
-parser.add_argument('--info', action='store_true', help='Show info messages')
-args = parser.parse_args()
-
-if args.local:
-    from client.local_mic import Mic
-else:
-    from client.mic import Mic
+from client.mic import Mic
 
 class Dingdang(object):
     def __init__(self):
@@ -128,20 +113,6 @@ if __name__ == "__main__":
         level=logging.INFO)
     logger = logging.getLogger()
     logger.getChild("client.stt").setLevel(logging.INFO)
-
-    if args.debug:
-        logger.setLevel(logging.DEBUG)
-    elif args.info:
-        logger.setLevel(logging.INFO)
-
-    if not args.no_network_check and not diagnose.check_network_connection():
-        logger.warning("Network not connected. This may prevent Dingdang " +
-                       "from running properly.")
-
-    if args.diagnose:
-        failed_checks = diagnose.run()
-        sys.exit(0 if not failed_checks else 1)
-
     try:
         app = Dingdang()
     except Exception:
