@@ -2,6 +2,7 @@
 import requests
 import json
 import logging
+import urllib2
 from uuid import getnode as get_mac
 from app_utils import sendToUser, create_reminder
 from abc import ABCMeta, abstractmethod
@@ -73,9 +74,9 @@ class TulingRobot(AbstractRobot):
                     },
                     'selfInfo':{
                         'location':{
-                            'city':u'%s' %self.city,
-                            'province':u'%s' %self.province,
-                            'street':u'%s' %self.street
+                            'city':urllib2.quote(self.city),
+                            'province':urllib2.quote(self.province),
+                            'street':urllib2.quote(self.street)
                         }
                     }
                 },
