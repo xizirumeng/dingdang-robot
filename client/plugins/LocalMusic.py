@@ -183,10 +183,10 @@ def handle(text, mic, profile):
                 music.stop()
                 mic.say('结束播放')
                 return
-            elif inputs and any(ext in inputs for ext in [u'上一首', u'上一']):
+            elif inputs and any(ext in inputs for ext in [u'上一']):
                 mic.say('上一首')
                 music.previous()
-            elif inputs and any(ext in inputs for ext in [u'下一首', u'下一']):
+            elif inputs and any(ext in inputs for ext in [u'下一']):
                 mic.say('下一首')
                 music.next(False)
             elif inputs and any(ext in inputs for ext in [u'暂停']):
@@ -195,13 +195,13 @@ def handle(text, mic, profile):
             elif inputs and any(ext in inputs for ext in [u'继续']):
                 mic.say('继续播放')
                 music.proceed()
-            elif inputs and any(ext in inputs for ext in [u'列表循环', u'列表']):
+            elif inputs and any(ext in inputs for ext in [u'列表']):
                 mic.say('列表循环模式')
                 music.setunlimited()
-            elif inputs and any(ext in inputs for ext in [u'单曲循环', u'单曲']):
+            elif inputs and any(ext in inputs for ext in [u'单曲']):
                 mic.say('无脑单曲模式')
                 music.setsingle()
-            elif inputs and any(ext in inputs for ext in [u'随机播放', u'随机模式', u'随机']):
+            elif inputs and any(ext in inputs for ext in [u'随机']):
                 mic.say('随机播放')
                 music.setrandom()
             else:
