@@ -2,7 +2,6 @@
 import requests
 import json
 import logging
-import urllib2
 from uuid import getnode as get_mac
 from app_utils import sendToUser, create_reminder
 from abc import ABCMeta, abstractmethod
@@ -44,9 +43,6 @@ class TulingRobot(AbstractRobot):
         self.mic = mic
         self.profile = profile
         self.tuling_key = self.get_key("1")
-        self.city = profile["tuling"]["city"]
-        self.province = profile["tuling"]["province"]
-        self.street = profile["tuling"]["street"]
         self.index = 1
 
     def get_key(self,index):
@@ -84,7 +80,7 @@ class TulingRobot(AbstractRobot):
                 else:
                     self.index = self.index+1
                 self.tuling_key = self.get_key(str(self.index))
-                result = "已切换key值，再来一次吧"
+                self.chat(texts)
             else:
                 result = "图灵出错 错误代码 "+str(respond['code']+"错误消息"+respond["text"])
             max_length = 100
@@ -103,9 +99,8 @@ class TulingRobot(AbstractRobot):
             if result.endswith('?') or result.endswith(u'？') or \
                u'告诉我' in result or u'请回答' in result or u'请问' in result:
                 self.mic.skip_passive = True
-        except Exception:
-            self._logger.critical("Tuling robot failed to responsed for %r",
-                                  msg, exc_info=True)
+        except Exception,e:
+            self._logger.error(e)
             self.mic.say("抱歉, 我的大脑短路了 " +
                          "请稍后再试试.")
 

@@ -92,17 +92,6 @@ class Dingdang(object):
 
 if __name__ == "__main__":
 
-    print('''
-*******************************************************"
-*             叮当 - 中文语音对话机器人               *
-*          (c) 2017 潘伟洲 <m@hahack.com>             *
-*   https://github.com/wzpan/dingdang-robot.git       *
-*******************************************************
-
-如需查看log，可以执行 `tail -f 叮当所在目录/temp/dingdang.log`
-
-''')
-
     logging.basicConfig(
         filename=os.path.join(
             dingdangpath.TEMP_PATH, "dingdang.log"
