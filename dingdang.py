@@ -1,18 +1,16 @@
 #!/usr/bin/env python2
 # -*- coding: utf-8-*-
 
+import logging
 import os
 import sys
-import logging
+
 import yaml
-import argparse
-import thread
-from client import tts
-from client import stt
+
 from client import dingdangpath
-from client import diagnose
+from client import stt
+from client import tts
 from client.conversation import Conversation
-from client import api
 
 # Add dingdangpath.LIB_PATH to sys.path
 sys.path.append(dingdangpath.LIB_PATH)

@@ -1,10 +1,10 @@
 # -*- coding: utf-8-*-
 import logging
-from notifier import Notifier
-from brain import Brain
-import time
 import thread
-from client import api
+import time
+
+from brain import Brain
+from notifier import Notifier
 
 
 class Conversation(object):
@@ -16,12 +16,6 @@ class Conversation(object):
         self.profile = profile
         self.brain = Brain(mic, profile)
         self.notifier = Notifier(profile, self.brain)
-        # start api service
-        thread.start_new_thread(api.api_service, (self.mic, self.brain, \
-                                                  profile["api"]["user"], \
-                                                  profile["api"]["password"], \
-                                                  profile["api"]["port"],))
-
     def is_proper_time(self):
         """
         whether it's the proper time to gather
